@@ -8,25 +8,34 @@
     height: 100%
     display: flex
     justify-content: space-around
-    align-content: center
     align-items: center
     padding: 0 max(2.4rem, 7vw)
-    flex-wrap: wrap
   .logo
-    width: clamp(18rem, 30vw, 36rem)
+    width: min(34vw, 36rem)
+    @media screen and (max-width: 1024px)
+      display: none
+
   .app-name
     display: inline
     font-weight: 900
     font-size: clamp(3.6rem, 9vw, 9rem)
-    background: linear-gradient(to right, $gradient-1-stop-1 0%, $gradient-1-stop-2 50%, $gradient-1-stop-3 100%)
+    background: #290505
     -webkit-background-clip: text
     -webkit-text-fill-color: transparent
   .catch-line
     font-weight: 500
-    margin-top: .64rem
     margin-left: .36rem
     font-size: 1.2rem
-    color: #eb3d26
+    color: #9e2516
+  .register-now
+    margin-top: 2.4rem
+    border: none
+    background: linear-gradient(to right, $gradient-1-stop-1 0%, $gradient-1-stop-2 50%, $gradient-1-stop-3 100%)
+    color: white
+    font-weight: 600
+    font-size: 1.2rem
+    padding: 1.3rem 3.2rem
+    border-radius: 0 1.8rem
   .waves
     position: absolute
     bottom: 0

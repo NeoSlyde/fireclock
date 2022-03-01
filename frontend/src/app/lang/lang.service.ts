@@ -8,4 +8,5 @@ export abstract class LangService {
     return "FireClock";
   }
   abstract catchLine(): string;
+  abstract registerNow(): string;
 }

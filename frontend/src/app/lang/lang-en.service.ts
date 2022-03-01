@@ -12,4 +12,8 @@ export class LangEnService extends LangService {
   catchLine(): string {
     return "The power of time, in the palm of your hand.";
   }
+
+  registerNow(): string {
+    return "Register now";
+  }
 }

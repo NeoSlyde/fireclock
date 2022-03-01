@@ -4,6 +4,9 @@
     <div class="titles">
       <h1 class="app-name">{{ this.langService.appName() }}</h1>
       <h2 class="catch-line">{{ this.langService.catchLine() }}</h2>
+      <button class="register-now" (click)="onRegisterNow()">
+        {{ this.langService.registerNow() }}
+      </button>
     </div>
     <img class="logo" src="assets/svg/logo.svg" />
   </div>

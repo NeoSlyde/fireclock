@@ -4,7 +4,7 @@
   "description": "FireClock, a Web Application to help you manage your time efficiently.",
   "scripts": {
     "backend:start": "cd backend && npm run start",
-    "frontend:dev": "cd frontend && npm run watch",
+    "frontend:dev": "cd frontend && npm run start --watch",
     "frontend:start": "cd frontend && npm run start"
   },
   "repository": {

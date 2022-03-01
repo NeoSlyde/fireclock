@@ -1,18 +1,10 @@
 {
   "name": "fireclock-backend",
-  "version": "0.0.0",
-  "description": "",
   "main": "main.js",
   "scripts": {
     "build": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "start": "npm run build && node dist/main.js"
   },
-  "keywords": [],
-  "maintainers": [
-    "Diego Imbert",
-    "Bassem Msayif",
-    "Hai Dang Le"
-  ],
   "devDependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",

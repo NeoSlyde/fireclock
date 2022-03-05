@@ -4,19 +4,20 @@ import { LangService } from "./lang.service";
 @Injectable({
   providedIn: "root",
 })
-export class LangFrService extends LangService {
+export class LangJpService extends LangService {
   constructor() {
     super();
   }
 
   override appName(): string {
-    return "Horloge de Feu";
+    return "火の時計";
   }
+
   catchLine(): string {
-    return "Le pouvoir du temps, dans la paume de vos mains.";
+    return "あなたの手のひらの上で、時間の力。";
   }
 
   registerNow(): string {
-    return "S'inscrire";
+    return "登録";
   }
 }

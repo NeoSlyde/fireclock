@@ -5,8 +5,9 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LangEnService } from "./lang/lang-en.service";
 import { LangFrService } from "./lang/lang-fr.service";
+import { LangJpService } from "./lang/lang-jp.service";
 import { LangService } from "./lang/lang.service";
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from "./navbar/navbar.component";
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],

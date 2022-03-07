@@ -5,7 +5,9 @@
       "@babel/preset-env",
       {
         "useBuiltIns": "entry",
-        "targets": "> 0.25%, not dead"
+        "targets": {
+          "browsers": ["last 2 Chrome versions"]
+        }
       }
     ]
   ],

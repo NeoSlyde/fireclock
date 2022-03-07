@@ -6,7 +6,9 @@
     "noEmit": true,
     "strict": true,
     "esModuleInterop": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false
   },
   "include": ["src"]
 }

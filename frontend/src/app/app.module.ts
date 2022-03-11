@@ -8,9 +8,10 @@ import { DummyAuthService } from "./auth/dummy_auth.service";
 import { LangEnService } from "./lang/lang-en.service";
 import { LangService } from "./lang/lang.service";
 import { NavbarComponent } from "./navbar/navbar.component";
+import { MainPageComponent } from './main-page/main-page.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent],
+  declarations: [AppComponent, NavbarComponent, MainPageComponent],
   imports: [BrowserModule, AppRoutingModule],
   providers: [
     { provide: LangService, useClass: LangEnService },

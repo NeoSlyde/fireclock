@@ -19,7 +19,7 @@ export class DummyAuthService extends AuthService {
   // Maps user ids to passwords
   _passwords: Map<string, string> = new Map();
 
-  async getUserByNickname(nickname: string): Promise<User | null> {
+  override async getUserByNickname(nickname: string): Promise<User | null> {
     const u = this._userDb.find(
       (u) => u.nickname.toLowerCase() === nickname.toLowerCase()
     );

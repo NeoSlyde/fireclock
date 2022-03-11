@@ -9,6 +9,7 @@ export interface User {
   providedIn: "root",
 })
 export abstract class AuthService {
+  abstract getUserByNickname(nickname: string): Promise<User | null>;
   abstract currentUser(): Observable<User | null>;
 
   // Tries to login to the api using the given credentials.

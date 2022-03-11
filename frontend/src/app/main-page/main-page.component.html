@@ -5,7 +5,7 @@
     <div class="titles">
       <h1 class="app-name">{{ this.langService.appName() }}</h1>
       <h2 class="catch-line">{{ this.langService.catchLine() }}</h2>
-      <button class="register-now" (click)="onRegisterNow()">
+      <button class="register-now" routerLink="register">
         {{ this.langService.registerNow() }}
       </button>
     </div>

@@ -17,7 +17,22 @@ export class LangEnService extends LangService {
     return "Register now";
   }
 
+  register(): string {
+    return "Register";
+  }
+
   login(): string {
     return "Login";
+  }
+  password(): string {
+    return "Password";
+  }
+
+  nickname(): string {
+    return "Nickname";
+  }
+
+  userAlreadyExists(): string {
+    return "User already exists";
   }
 }

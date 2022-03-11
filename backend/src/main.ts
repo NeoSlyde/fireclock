@@ -9,7 +9,7 @@ app.use(express.static("../frontend/dist/fireclock-frontend"));
 app.use("/", router);
 
 app.get("/", (req, res) => {
-  res.send("Hello FireClock !");
+  res.send("Hello FireClock!");
 });
 
 app.listen(port, () => {

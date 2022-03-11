@@ -5,7 +5,7 @@ const app: Express = express();
 const port: number = parseInt(process.env.PORT || "3200");
 
 app.use(express.json());
-app.use(express.static("./test"));
+app.use(express.static("../frontend/dist/fireclock-frontend"));
 app.use("/", router);
 
 app.get("/", (req, res) => {

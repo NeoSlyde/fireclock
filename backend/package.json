@@ -19,6 +19,7 @@
     "bcrypt": "^5.0.1",
     "elasticsearch": "^16.7.3",
     "express": "^4.17.3",
-    "express-async-handler": "^1.2.0"
+    "express-async-handler": "^1.2.0",
+    "rxjs-compat": "^6.6.7"
   }
 }

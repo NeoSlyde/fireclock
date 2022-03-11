@@ -2,5 +2,34 @@
   <ul>
     <li routerLink="">{{ langService.appName() }}</li>
     <li>{{ langService.login() }}</li>
+    <li>
+      <form [formGroup]="userLogin" (ngSubmit)="onSubmitForm()">
+        <div class="form-group">
+          <label for="userName">Username</label>
+          <input
+            type="text"
+            id="userName"
+            class="form-control"
+            formControlName="userName"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            formControlName="password"
+          />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="userLogin.invalid"
+        >
+          Login
+        </button>
+      </form>
+    </li>
   </ul>
 </nav>

@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { UnimplementedException } from "./exceptions/unimplemented-exception";
+import { UnimplementedException } from "./misc/unimplemented-exception";
 import { LangService } from "./lang/lang.service";
 
 @Component({

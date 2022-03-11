@@ -11,7 +11,7 @@ import { AuthService, User } from "./auth.service";
 @Injectable({
   providedIn: "root",
 })
-export class DummyAuthService extends AuthService {
+export class TrueAuthService extends AuthService {
   _currentUserSubject = new BehaviorSubject<User | null>(null);
 
   _userDb: User[] = [];
@@ -42,7 +42,6 @@ export class DummyAuthService extends AuthService {
     const u = await this.getUserByNickname(nickname);
     if (u !== null) throw new UserAlreadyExistsException(nickname);
     const user = { id: "user-" + Math.random(), nickname, password };
-    this._userDb.push(user);
     return user;
   }
 

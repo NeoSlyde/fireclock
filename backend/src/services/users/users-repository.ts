@@ -31,14 +31,24 @@ const store = (user) =>
       handleElasticsearchError(error);
     });
 
-const deleteUser = (user) =>
+const remove = (nickname) =>
   esClient
-    .delete({
+    .deleteByQuery({
       index,
       refresh: "true",
-      body: user,
+      body: {
+        query: {
+          match: {
+            nickname: {
+              query: nickname,
+            },
+          },
+        },
+      },
     })
-    .then((response) => response)
+    .then((response) => {
+      return response;
+    })
     .catch((error) => {
       handleElasticsearchError(error);
     });
@@ -58,28 +68,28 @@ const getUserById = (id) =>
       },
     })
     .then((response) => {
-      response;
+      return response;
     })
     .catch((error) => {
       handleElasticsearchError(error);
     });
 
-const getUser = (userName) =>
+const getUser = (nickname: any) =>
   esClient
     .search({
       index,
       body: {
         query: {
           match: {
-            userName: {
-              query: userName,
+            nickname: {
+              query: nickname,
             },
           },
         },
       },
     })
     .then((response) => {
-      response;
+      return response;
     })
     .catch((error) => {
       handleElasticsearchError(error);
@@ -89,6 +99,6 @@ export default {
   getUser,
   store,
   getAll,
-  deleteUser,
+  remove,
   getUserById,
 };

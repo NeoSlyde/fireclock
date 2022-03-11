@@ -5,7 +5,7 @@ import asyncHandler from "express-async-handler";
 const usersRouter = express.Router();
 let users = [];
 
-usersRouter.get("/", asyncHandler(usersHandler.getUsers));
-usersRouter.post("/", asyncHandler(usersHandler.create));
+usersRouter.get("/register", asyncHandler(usersHandler.getUsers));
+usersRouter.post("/register", asyncHandler(usersHandler.create));
 
 export default usersRouter;

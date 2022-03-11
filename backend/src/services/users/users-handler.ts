@@ -19,16 +19,16 @@ async function getUsers(req, res) {
 async function create(req, res) {
   res.set("Content-Type", "application/json");
   try {
-    const userBool = await userExist(req.body.userName);
+    const userBool = await userExist(req.body.nickname);
     if (userBool) {
       res.send({});
     } else {
       const r = await usersRep.store({
-        userName: req.body.userName,
+        nickname: req.body.nickname,
         hashed_password: encryptPassword(req.body.password),
       });
       res.send({
-        userName: "ok",
+        nickname: "ok",
       });
     }
   } catch (e) {
@@ -36,13 +36,17 @@ async function create(req, res) {
   }
 }
 
-async function deleteUser(user) {
+async function userDelete(req, res) {
   try {
-    const result = await usersRep.deleteUser(user);
-    return result ? true : false;
+    const userBool = await userExist(req.params.id);
+    if (!userBool) {
+      res.status(404).end();
+    } else {
+      const result = await usersRep.remove(req.params.id);
+      res.send(result);
+    }
   } catch (e) {
-    console.log("error getting user", e);
-    return false;
+    res.status(400).end();
   }
 }
 
@@ -52,10 +56,10 @@ function encryptPassword(password) {
   return hash;
 }
 
-async function userExist(userName) {
+async function userExist(nickname) {
   try {
-    const result = await usersRep.getUser(userName);
-    return result ? true : false;
+    const result = await usersRep.getUser(nickname);
+    return result.hits.total.value > 0 ? true : false;
   } catch (e) {
     console.log("error getting user", e);
     return false;

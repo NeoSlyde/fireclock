@@ -16,4 +16,8 @@ export class LangEnService extends LangService {
   registerNow(): string {
     return "Register now";
   }
+
+  login(): string {
+    return "Login";
+  }
 }

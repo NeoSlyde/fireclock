@@ -9,4 +9,5 @@ export abstract class LangService {
   }
   abstract catchLine(): string;
   abstract registerNow(): string;
+  abstract login(): string;
 }

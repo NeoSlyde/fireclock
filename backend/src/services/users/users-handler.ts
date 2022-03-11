@@ -18,7 +18,6 @@ async function getUsers(req, res) {
 
 async function create(req, res) {
   res.set("Content-Type", "application/json");
-  console.log(req.body);
   try {
     const userBool = await userExist(req.body.userName);
     if (userBool) {
@@ -28,13 +27,22 @@ async function create(req, res) {
         userName: req.body.userName,
         hashed_password: encryptPassword(req.body.password),
       });
-      console.log("pass", r);
       res.send({
         userName: "ok",
       });
     }
   } catch (e) {
     res.status(400).end();
+  }
+}
+
+async function deleteUser(user) {
+  try {
+    const result = await usersRep.deleteUser(user);
+    return result ? true : false;
+  } catch (e) {
+    console.log("error getting user", e);
+    return false;
   }
 }
 
@@ -54,8 +62,19 @@ async function userExist(userName) {
   }
 }
 
+async function userExistbyId(id) {
+  try {
+    const result = await usersRep.getUserById(id);
+    return result ? true : false;
+  } catch (e) {
+    console.log("error getting user", e);
+    return false;
+  }
+}
+
 export default {
   getUsers,
   create,
   userExist,
+  userExistbyId,
 };

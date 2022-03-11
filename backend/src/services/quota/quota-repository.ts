@@ -1,10 +1,10 @@
-import esClient from "./es-Client";
+import esClient from "../es-Client";
 
-const index = "users";
+const index = "quota";
 
 const handleElasticsearchError = (error) => {
   if (error.status === 404) {
-    throw new Error("User Not Found");
+    throw new Error("quota Not Found");
   }
   throw new Error(error.msg, error.status || 500);
 };
@@ -19,27 +19,39 @@ const getAll = () =>
       handleElasticsearchError(error);
     });
 
-const store = (user) =>
+const store = (quota) =>
   esClient
     .index({
       index,
       refresh: "true",
-      body: user,
+      body: quota,
     })
     .then((response) => response)
     .catch((error) => {
       handleElasticsearchError(error);
     });
 
-const getUser = (userName) =>
+const deleteQuota = (quota) =>
+  esClient
+    .index({
+      index,
+      refresh: "true",
+      body: quota,
+    })
+    .then((response) => response)
+    .catch((error) => {
+      handleElasticsearchError(error);
+    });
+
+const getQuota = (quota_id) =>
   esClient
     .search({
       index,
       body: {
         query: {
           match: {
-            userName: {
-              query: userName,
+            quota_id: {
+              query: quota_id,
             },
           },
         },
@@ -53,7 +65,8 @@ const getUser = (userName) =>
     });
 
 export default {
-  getUser,
+  getQuota,
   store,
   getAll,
+  deleteQuota,
 };

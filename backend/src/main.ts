@@ -1,5 +1,5 @@
 import express, { Express } from "express";
-import router from "./services/users-routage";
+import router from "./services/users/users-routage";
 
 const app: Express = express();
 const port: number = parseInt(process.env.PORT || "3200");

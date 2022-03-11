@@ -4,15 +4,12 @@ import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LangEnService } from "./lang/lang-en.service";
-import { LangFrService } from "./lang/lang-fr.service";
-import { LangJpService } from "./lang/lang-jp.service";
 import { LangService } from "./lang/lang.service";
-import { NavbarComponent } from "./navbar/navbar.component";
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent],
+  declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule],
-  providers: [{ provide: LangService, useClass: LangFrService }],
+  providers: [{ provide: LangService, useClass: LangEnService }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

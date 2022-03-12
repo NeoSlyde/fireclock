@@ -17,7 +17,6 @@ async function getTasks(req, res) {
 
 async function create(req, res) {
   res.set("Content-Type", "application/json");
-  console.log(req.body);
   try {
     const taskBool = await TaskExist(req.body.task_id);
     if (taskBool) {

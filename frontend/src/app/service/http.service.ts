@@ -31,8 +31,6 @@ export class HttpService {
       .post<User>(this.serverUrl + "login", user, this.httpOptions)
       .pipe(
         map((res) => {
-          console.log(res);
-
           if (!!(res as any).error) throw new Error("User not found");
           return res;
         })

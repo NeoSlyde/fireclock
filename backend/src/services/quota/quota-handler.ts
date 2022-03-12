@@ -18,7 +18,6 @@ async function getQuota(req, res) {
 
 async function create(req, res) {
   res.set("Content-Type", "application/json");
-  console.log(req.body);
   try {
     const quotaBool = await quotaExist(req.body.quota_id);
     if (quotaBool) {
@@ -30,7 +29,6 @@ async function create(req, res) {
         duration: req.body.duration,
         recurence: req.body.recurence,
       });
-      console.log("pass", r);
       res.send({
         quota_id: "ok",
       });

@@ -31,7 +31,7 @@ const store = (task) =>
       handleElasticsearchError(error);
     });
 
-const deleteTask = (task) =>
+const remove = (task) =>
   esClient
     .index({
       index,
@@ -43,22 +43,22 @@ const deleteTask = (task) =>
       handleElasticsearchError(error);
     });
 
-const getTasks = (task_id) =>
+const getTasks = (id) =>
   esClient
     .search({
       index,
       body: {
         query: {
           match: {
-            task_id: {
-              query: task_id,
+            id: {
+              query: id,
             },
           },
         },
       },
     })
     .then((response) => {
-      response;
+      return response;
     })
     .catch((error) => {
       handleElasticsearchError(error);
@@ -68,5 +68,5 @@ export default {
   getTasks,
   store,
   getAll,
-  deleteTask,
+  remove,
 };

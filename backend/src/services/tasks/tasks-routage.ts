@@ -5,7 +5,8 @@ import asyncHandler from "express-async-handler";
 const tasksRouter = express.Router();
 let tasks = [];
 
-tasksRouter.get("/", asyncHandler(tasksHandler.getTasks));
-tasksRouter.post("/", asyncHandler(tasksHandler.create));
+tasksRouter.get("/task-list", asyncHandler(tasksHandler.getTasks));
+tasksRouter.post("/new-task", asyncHandler(tasksHandler.create));
+tasksRouter.post("/delete-task", tasksHandler.deleteTask);
 
 export default tasksRouter;

@@ -1,5 +1,4 @@
 import tasksRep from "./tasks-repository";
-var bcrypt = require("bcrypt");
 
 async function getTasks(req, res) {
   try {
@@ -25,12 +24,11 @@ async function create(req, res) {
       res.send({});
     } else {
       const r = await tasksRep.store({
-        task_id: req.body.task_id,
-        userName: req.body.userName,
-        parent: req.body.parent,
+        id: req.body.id,
+        children: req.body.children,
         name: req.body.name,
+        quotaInterval: req.body.quotaInterval,
       });
-      console.log("pass", r);
       res.send({
         task_id: "ok",
       });
@@ -42,7 +40,7 @@ async function create(req, res) {
 
 async function deleteTask(task) {
   try {
-    const result = await tasksRep.deleteTask(task);
+    const result = await tasksRep.remove(task);
     return result ? true : false;
   } catch (e) {
     console.log("error getting user", e);
@@ -50,9 +48,9 @@ async function deleteTask(task) {
   }
 }
 
-async function TaskExist(task_id) {
+async function TaskExist(id) {
   try {
-    const result = await tasksRep.getTasks(task_id);
+    const result = await tasksRep.getTasks(id);
     return result ? true : false;
   } catch (e) {
     console.log("error getting task", e);
@@ -64,4 +62,5 @@ export default {
   getTasks,
   create,
   TaskExist,
+  deleteTask,
 };

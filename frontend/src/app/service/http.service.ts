@@ -10,7 +10,7 @@ export class HttpService {
   constructor(private http: HttpClient) {}
 
   public getUsers(): Observable<any> {
-    return this.http.get(this.serverUrl + "register");
+    return this.http.get(this.serverUrl + "user-list");
   }
   private httpOptions = {
     headers: new HttpHeaders({
@@ -37,5 +37,13 @@ export class HttpService {
           return res;
         })
       );
+  }
+
+  public createTask(user: any): Observable<User> {
+    return this.http.post<User>(
+      this.serverUrl + "new-task",
+      user,
+      this.httpOptions
+    );
   }
 }

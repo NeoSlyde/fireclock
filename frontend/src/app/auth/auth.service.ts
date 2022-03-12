@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 export interface User {
-  id: string;
   nickname: string;
 }
 
@@ -17,7 +16,7 @@ export abstract class AuthService {
   // On failure, currentUser is set to null and an exception is thrown:
   //   - UserDoesntExistException
   //   - WrongPasswordException
-  abstract login(nickname: string, password: string): Promise<void>;
+  abstract login(nickname: string, password: string): Promise<User>;
 
   // Tries to register a new user using the given credentials.
   // This only registers the user, it does not log in.

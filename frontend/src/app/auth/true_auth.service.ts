@@ -30,18 +30,15 @@ export class TrueAuthService extends AuthService {
     throw this._currentUserSubject;
   }
 
-  override async login(nickname: string, password: string): Promise<void> {
-    const u = await this.getUserByNickname(nickname);
-    if (u === null) throw new UserDoesntExistException(nickname);
-    if (this._passwords.get(u.id) !== password)
-      throw new WrongPasswordException();
-    this._currentUserSubject.next(u ?? null);
+  override async login(nickname: string, password: string): Promise<User> {
+    const user = { nickname, password };
+    return user;
   }
 
   override async register(nickname: string, password: string): Promise<User> {
     const u = await this.getUserByNickname(nickname);
     if (u !== null) throw new UserAlreadyExistsException(nickname);
-    const user = { id: "user-" + Math.random(), nickname, password };
+    const user = { nickname, password };
     return user;
   }
 
@@ -55,13 +52,10 @@ export class TrueAuthService extends AuthService {
   override async updateCurrentUserPassword(newPassword: string): Promise<void> {
     const u = this._currentUserSubject.value;
     if (u === null) throw new UnauthenticatedException();
-    this._passwords.set(u.id, newPassword);
   }
 
   override async deleteCurrentUser(): Promise<void> {
     const u = this._currentUserSubject.value;
     if (u === null) throw new UnauthenticatedException();
-    this._userDb = this._userDb.filter((u) => u.id !== u.id);
-    this._passwords.delete(u.id);
   }
 }

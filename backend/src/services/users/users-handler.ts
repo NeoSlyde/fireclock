@@ -36,6 +36,22 @@ async function create(req, res) {
   }
 }
 
+async function login(req, res) {
+  try {
+    const result = await usersRep.getUser(req.body.nickname);
+    const isPasswordCorrect = bcrypt.compare(
+      req.body.password,
+      result.hits.hits[0]._source.hashed_password
+    );
+    console.log("good pass?" + isPasswordCorrect);
+    if (isPasswordCorrect === true) {
+      res.send({ nickname: "ok" });
+    }
+  } catch (e) {
+    console.log("error getting user", e);
+  }
+}
+
 async function userDelete(req, res) {
   try {
     const userBool = await userExist(req.params.id);
@@ -79,6 +95,7 @@ async function userExistbyId(id) {
 export default {
   getUsers,
   create,
+  login,
   userExist,
   userExistbyId,
 };

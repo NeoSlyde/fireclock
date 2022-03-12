@@ -25,4 +25,12 @@ export class HttpService {
       this.httpOptions
     );
   }
+
+  public login(user: any): Observable<User> {
+    return this.http.post<User>(
+      this.serverUrl + "login",
+      user,
+      this.httpOptions
+    );
+  }
 }

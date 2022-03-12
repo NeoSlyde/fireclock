@@ -12,6 +12,7 @@ import { MainPageComponent } from "./main-page/main-page.component";
 import { RegisterPageComponent } from "./register-page/register-page.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
+import { LoginPageComponent } from './login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HttpClientModule } from "@angular/common/http";
     NavbarComponent,
     MainPageComponent,
     RegisterPageComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,

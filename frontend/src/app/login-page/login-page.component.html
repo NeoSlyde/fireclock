@@ -1,0 +1,15 @@
+<div style="position: absolute; width: 100%">
+  <app-navbar></app-navbar>
+</div>
+<div class="center">
+  <div class="container">
+    <h1 class="title">{{ langService.login() }}</h1>
+    <form #self="ngForm" class="form" (ngSubmit)="onSubmit(self)">
+      <label for="nickname">{{ langService.nickname() }}</label>
+      <input type="input" name="nickname" ngModel />
+      <label for="password">{{ langService.password() }}</label>
+      <input type="password" name="password" ngModel />
+      <input type="submit" [value]="langService.login()" class="submit" />
+    </form>
+  </div>
+</div>

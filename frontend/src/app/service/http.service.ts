@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { User } from "../model/user.model";
 import { HttpHeaders } from "@angular/common/http";
@@ -27,10 +27,15 @@ export class HttpService {
   }
 
   public login(user: any): Observable<User> {
-    return this.http.post<User>(
-      this.serverUrl + "login",
-      user,
-      this.httpOptions
-    );
+    return this.http
+      .post<User>(this.serverUrl + "login", user, this.httpOptions)
+      .pipe(
+        map((res) => {
+          console.log(res);
+
+          if (!!(res as any).error) throw new Error("User not found");
+          return res;
+        })
+      );
   }
 }

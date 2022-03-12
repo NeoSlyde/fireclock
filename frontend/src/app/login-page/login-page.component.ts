@@ -26,14 +26,10 @@ export class LoginPageComponent {
     this.authService.login(nickname, password).then((user) => {
       this.httpService.login(user).subscribe(
         (response) => {
-          if (response && response.nickname === "ok") {
-            alert("Connecté!");
-          } else {
-            alert("Mauvais identifiant ou mot de passe !");
-          }
+          alert("Connecté!");
         },
         (e) => {
-          console.log("erreur", e);
+          alert("Mauvais identifiant ou mot de passe !");
         },
         () => {
           this.router.navigateByUrl("/");

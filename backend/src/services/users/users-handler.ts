@@ -39,16 +39,25 @@ async function create(req, res) {
 async function login(req, res) {
   try {
     const result = await usersRep.getUser(req.body.nickname);
+    const user = result.hits.hits[0];
+    console.log(result);
+    console.log(result.hits.hits[0]._id);
+
     const isPasswordCorrect = await bcrypt.compare(
       req.body.password,
-      result.hits.hits[0]._source.hashed_password
+      user._source.hashed_password
     );
     console.log("good pass?" + isPasswordCorrect);
     if (isPasswordCorrect === true) {
-      res.send({ nickname: "ok" });
+      req.session.userId = user._id;
+      console.log({ id: user._id, nickname: user._source.nickname });
+      res.send({ id: user._id, nickname: user._source.nickname });
+    } else {
+      res.send({ error: "wrong password", code: 401 });
     }
   } catch (e) {
     console.log("error getting user", e);
+    res.send({ error: "User Not Found", code: 400 });
   }
 }
 

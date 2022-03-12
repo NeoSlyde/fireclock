@@ -1,12 +1,16 @@
 import express, { Express } from "express";
-import router from "./services/users/users-routage";
+import session from "express-session";
 
 const app: Express = express();
 const port: number = parseInt(process.env.PORT || "3200");
 
+app.use(session({ secret: "SECRET", resave: false, cookie: {} }));
 app.use(express.json());
-app.use(express.static("../frontend/dist/fireclock-frontend"));
+
+import router from "./services/users/users-routage";
 app.use("/", router);
+
+app.use(express.static("../frontend/dist/fireclock-frontend"));
 
 app.get("/", (req, res) => {
   res.send("Hello FireClock!");

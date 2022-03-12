@@ -1,5 +1,5 @@
 import usersRep from "./users-repository";
-var bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
 
 async function getUsers(req, res) {
   try {
@@ -39,7 +39,7 @@ async function create(req, res) {
 async function login(req, res) {
   try {
     const result = await usersRep.getUser(req.body.nickname);
-    const isPasswordCorrect = bcrypt.compare(
+    const isPasswordCorrect = await bcrypt.compare(
       req.body.password,
       result.hits.hits[0]._source.hashed_password
     );

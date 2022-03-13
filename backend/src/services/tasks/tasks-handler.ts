@@ -1,4 +1,5 @@
 import tasksRep from "./tasks-repository";
+import { Task } from "../../../../frontend/src/app/tasks/tasks.service";
 
 async function getTasks(req, res) {
   try {
@@ -21,14 +22,18 @@ async function create(req, res) {
     const r = await tasksRep.store({
       user_id: req.session.userId,
       parent_id: req.body.parentId,
-      children: [],
       name: req.body.name,
       quota: req.body.quota,
       quotaInterval: req.body.quotaInterval,
     });
-    res.send({
-      task_id: "ok",
-    });
+    const task: Task = {
+      children: [],
+      id: r._id,
+      name: req.body.name,
+      quota: req.body.quota,
+      quotaInterval: req.body.quotaInterval,
+    };
+    res.send(task);
   } catch (e) {
     res.status(400).end();
   }

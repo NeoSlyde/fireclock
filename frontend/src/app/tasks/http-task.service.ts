@@ -76,8 +76,14 @@ export class HttpTaskService extends TasksService {
           jsonContentTypeOptions
         )
       );
-
-      this._tasksDb.next([...this._tasksDb.value, task]);
+      if (parentId === null) {
+        this._tasksDb.next([...this._tasksDb.value, task]);
+      } else {
+        this._updateById(parentId, (t) => ({
+          ...t,
+          children: [...t.children, task],
+        }));
+      }
       return task;
     } catch (error) {
       throw new Error("Error: Create Task");

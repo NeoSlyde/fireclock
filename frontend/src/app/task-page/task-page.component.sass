@@ -1,0 +1,70 @@
+.tasks
+  display: flex
+  max-width: 43rem
+  flex-direction: column
+  padding: 1rem
+  li
+    display: flex
+    flex-direction: row
+
+li.indent-1 .task
+  background-color: #ffbb00
+li.indent-2 .task
+  background-color: #fc4c35
+li.indent-3 .task
+  background-color: #ff1b85
+
+.task
+  width: 100%
+  display: flex
+  flex-direction: row
+  align-items: center
+  padding: .5rem 1.2rem
+  min-height: 2.6rem
+  border-radius: .5rem
+  margin: .15rem 0
+  gap: 1.2rem
+  flex-wrap: wrap
+  .name
+    width: 12rem
+    border: none
+    border-radius: .16rem
+    padding: .3rem .6rem
+    outline: none
+    background-color: transparent
+    margin-right: auto
+    font-size: 1rem
+    &::placeholder
+      color: #00000060
+  .action
+    font-size: 0.8rem
+    opacity: .86
+    cursor: pointer
+  .quota
+    display: flex
+    align-items: center
+    & > *:not(.per)
+      background: transparent
+      border: none
+      appearance: none
+      padding: 0 .24rem
+    .duration
+      width: 2.8rem
+      border: none
+      border-radius: .4rem 0 0 .4rem
+      text-align: right
+      // Hide arrows
+      &[type=number]
+        -moz-appearance: textfield // Firefox
+      &::-webkit-inner-spin-button
+        -webkit-appearance: none // Chrome
+        margin: 0 // Chrome
+
+    .duration-unit
+      border-radius: 0 .4rem .4rem 0
+    .per
+      padding: 0 .2rem
+      font-size: 0.8rem
+      opacity: .6
+    .interval
+      border-radius: .4rem

@@ -1,0 +1,43 @@
+<ul class="tasks">
+  <li
+    *ngFor="let task of tasksService.getFlattenedIndentedTasks() | async"
+    [ngClass]="['indent-' + (1 + (task.indent % 3))]"
+  >
+    <div class="indent" [ngStyle]="{ width: 1.6 * task.indent + 'rem' }"></div>
+    <div class="task">
+      <input
+        type="text"
+        placeholder="Task name"
+        [value]="task.task.name"
+        (change)="onUpdateName(task.task.id, $event.target)"
+        class="name"
+      />
+      <div class="quota">
+        <input
+          type="number"
+          [value]="task.task.quota"
+          class="duration"
+          (change)="onUpdateQuota(task.task.id, $event.target)"
+        />
+        <label class="per">minutes per</label>
+        <select
+          name="interval"
+          class="interval action"
+          (change)="onUpdateQuotaInterval(task.task.id, $event.target)"
+        >
+          <option
+            *ngFor="let x of intervalOptions"
+            [value]="x.value"
+            [selected]="x.value === task.task.quotaInterval"
+          >
+            {{ x.name }}
+          </option>
+        </select>
+      </div>
+      <p (click)="onAddChild(task.task.id)" class="add-child action">
+        Add child
+      </p>
+      <p (click)="onRemove(task.task.id)" class="remove action">Remove</p>
+    </div>
+  </li>
+</ul>

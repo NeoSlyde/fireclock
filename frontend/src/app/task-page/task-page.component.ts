@@ -20,6 +20,10 @@ export class TaskPageComponent implements OnInit {
     this.tasksService.createTask("", taskId, 60, "day");
   }
 
+  onAddUnparentedTask() {
+    this.tasksService.createTask("", null, 60, "day");
+  }
+
   onRemove(taskId: string) {
     this.tasksService.deleteTask(taskId);
   }

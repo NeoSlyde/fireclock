@@ -5,6 +5,7 @@
   >
     <div class="indent" [ngStyle]="{ width: 1.6 * task.indent + 'rem' }"></div>
     <div class="task">
+      <p>></p>
       <input
         type="text"
         placeholder="Task name"
@@ -38,4 +39,5 @@
       <p (click)="onRemove(task.task.id)" class="remove action">x</p>
     </div>
   </li>
+  <p class="new-task" (click)="onAddUnparentedTask()">New task</p>
 </ul>

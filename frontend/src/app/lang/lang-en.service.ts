@@ -43,4 +43,12 @@ export class LangEnService extends LangService {
   wrongPassword(): string {
     return "Wrong Password";
   }
+
+  tasks(): string {
+    return "Tasks";
+  }
+
+  manageTasks(): string {
+    return "Manage Tasks";
+  }
 }

@@ -5,8 +5,19 @@
     <div class="titles">
       <h1 class="app-name">{{ this.langService.appName() }}</h1>
       <h2 class="catch-line">{{ this.langService.catchLine() }}</h2>
-      <button class="register-now" routerLink="register">
+      <button
+        *ngIf="!(authService.currentUser() | async)"
+        class="register-now"
+        routerLink="register"
+      >
         {{ this.langService.registerNow() }}
+      </button>
+      <button
+        *ngIf="authService.currentUser() | async"
+        class="tasks-call-to-action"
+        routerLink="tasks"
+      >
+        {{ this.langService.manageTasks() }}
       </button>
     </div>
     <img class="logo" src="assets/svg/logo.svg" />

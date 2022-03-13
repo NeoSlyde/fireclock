@@ -5,5 +5,8 @@
       <li routerLink="login">{{ langService.login() }}</li>
       <li routerLink="register">{{ langService.register() }}</li>
     </ng-container>
+    <ng-container *ngIf="currentUser !== null">
+      <li routerLink="tasks">{{ langService.tasks() }}</li>
+    </ng-container>
   </ul>
 </nav>

@@ -16,4 +16,6 @@ export abstract class LangService {
   abstract userAlreadyExists(): string;
   abstract userDoesntExists(): string;
   abstract wrongPassword(): string;
+  abstract tasks(): string;
+  abstract manageTasks(): string;
 }

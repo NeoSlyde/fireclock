@@ -70,8 +70,6 @@ async function logout(req, res) {
 
 async function currentUser(req, res) {
   if (req.session?.userId && (await userExistbyId(req.session.userId))) {
-    // ! userRes is null, crash
-    console.log(req.session.userId);
     const userRes = (await usersRep.getUserById(req.session.userId)).hits
       .hits[0];
     const user: User = {

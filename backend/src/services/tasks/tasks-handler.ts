@@ -18,40 +18,76 @@ async function getTasks(req, res) {
 async function create(req, res) {
   res.set("Content-Type", "application/json");
   try {
-    const taskBool = await TaskExist(req.body.task_id);
-    if (taskBool) {
-      res.send({});
+    const r = await tasksRep.store({
+      user_id: req.session.userId,
+      parent_id: req.body.parentId,
+      children: [],
+      name: req.body.name,
+      quota: req.body.quota,
+      quotaInterval: req.body.quotaInterval,
+    });
+    res.send({
+      task_id: "ok",
+    });
+  } catch (e) {
+    res.status(400).end();
+  }
+}
+
+async function deleteTask(req, res) {
+  try {
+    const userBool = await taskExist(req.body.taskId);
+    if (!userBool) {
+      res.status(404).end();
     } else {
-      const r = await tasksRep.store({
-        user_id: req.body.user_id,
-        parent_id: req.body.parent_id,
-        children: req.body.children,
-        name: req.body.name,
-        quota: req.body.quota,
-        quotaInterval: req.body.quotaInterval,
-      });
-      res.send({
-        task_id: "ok",
-      });
+      const result = await tasksRep.remove(req.body.taskId);
+      res.send(result);
     }
   } catch (e) {
     res.status(400).end();
   }
 }
 
-async function deleteTask(task) {
+async function updateName(req, res) {
   try {
-    const result = await tasksRep.remove(task);
-    return result ? true : false;
-  } catch (e) {
-    console.log("error getting user", e);
-    return false;
-  }
+    const taskBool = await taskExist(req.body.taskId);
+    if (taskBool) {
+      console.log("attempting to update name");
+      const newTask = await tasksRep.updateName(req.body.taskId, req.body.name);
+      res.json(newTask);
+    }
+  } catch (error) {}
 }
 
-async function TaskExist(id) {
+async function updateQuota(req, res) {
   try {
-    const result = await tasksRep.getTasks(id);
+    const taskBool = await taskExist(req.body.taskId);
+    if (taskBool) {
+      const newTask = await tasksRep.updateQuota(
+        req.body.taskId,
+        req.body.quota
+      );
+      res.json(newTask);
+    }
+  } catch (error) {}
+}
+
+async function updateQuotaInterval(req, res) {
+  try {
+    const taskBool = await taskExist(req.body.taskId);
+    if (taskBool) {
+      const newTask = await tasksRep.updateQuotaInterval(
+        req.body.taskId,
+        req.body.quotaInterval
+      );
+      res.json(newTask);
+    }
+  } catch (error) {}
+}
+
+async function taskExist(id) {
+  try {
+    const result = await tasksRep.getTask(id);
     return result ? true : false;
   } catch (e) {
     console.log("error getting task", e);
@@ -62,7 +98,14 @@ async function TaskExist(id) {
 async function getTaskOfUser(req, res) {
   try {
     const result = await tasksRep.getTasks(req.session.userId);
-    res.send(result.hits.hits.map((task) => task._source));
+    const finalArray = [];
+    for (let obj of result.hits.hits) {
+      finalArray.push({
+        ...obj._source,
+        id: obj._id,
+      });
+    }
+    res.send(finalArray);
   } catch (e) {
     res.status(400).end();
   }
@@ -71,7 +114,10 @@ async function getTaskOfUser(req, res) {
 export default {
   getTasks,
   create,
-  TaskExist,
+  taskExist,
   deleteTask,
   getTaskOfUser,
+  updateName,
+  updateQuota,
+  updateQuotaInterval,
 };

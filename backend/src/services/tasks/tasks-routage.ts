@@ -7,6 +7,12 @@ let tasks = [];
 
 tasksRouter.get("/task-list", asyncHandler(tasksHandler.getTaskOfUser));
 tasksRouter.post("/new-task", asyncHandler(tasksHandler.create));
-tasksRouter.post("/delete-task", tasksHandler.deleteTask);
+tasksRouter.post("/delete-task", asyncHandler(tasksHandler.deleteTask));
+tasksRouter.post("/update-task", asyncHandler(tasksHandler.updateName));
+tasksRouter.post("/update-task-quota", asyncHandler(tasksHandler.updateQuota));
+tasksRouter.post(
+  "/update-task-quotaInterval",
+  asyncHandler(tasksHandler.updateQuotaInterval)
+);
 
 export default tasksRouter;

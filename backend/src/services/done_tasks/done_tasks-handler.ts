@@ -18,13 +18,11 @@ async function getDone_tasks(req, res) {
 
 async function getDoneTasksOfTask(req, res) {
   try {
-    /*
+    console.log(
+      "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + req.query.taskId
+    );
 
-    NOT WORKING :((
-
-    */
-
-    const result = await done_tasksRep.getDoneTasksOfTask(req.params.id);
+    const result = await done_tasksRep.getDoneTasksOfTask(req.query.id);
     const finalArray = [];
     for (let obj of result.hits.hits) {
       finalArray.push(obj._source);
@@ -59,7 +57,7 @@ async function deleteDoneTask(req, res) {
     if (!userBool) {
       res.status(404).end();
     } else {
-      const result = await done_tasksRep.remove(req.params.id);
+      const result = await done_tasksRep.remove(req.query.id);
       res.send(result);
     }
   } catch (e) {

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, firstValueFrom, Observable } from "rxjs";
 import { Activity, ActivityService } from "./activity.service";
@@ -27,15 +27,19 @@ export class HttpActivityService extends ActivityService {
 
   constructor(readonly http: HttpClient) {
     super();
-    firstValueFrom(
-      this.http.get<Activity[] | []>(
-        "/api/list-activities",
-        jsonContentTypeOptions
-      )
-    ).then((u) => this._activitiesDb.next(u));
   }
 
   override getActivities(taskId: string): Observable<Activity[]> {
+    this.http
+      .get<Activity[] | []>("/api/list-activities", {
+        ...jsonContentTypeOptions,
+        params: new HttpParams().set("id", taskId),
+      })
+      .subscribe((u) => {
+        console.log(u);
+
+        this._activitiesDb.next(u);
+      });
     return this._activitiesDb;
   }
 

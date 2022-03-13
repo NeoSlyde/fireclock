@@ -84,11 +84,11 @@ async function currentUser(req, res) {
 
 async function userDelete(req, res) {
   try {
-    const userBool = await userExist(req.params.id);
+    const userBool = await userExist(req.query.id);
     if (!userBool) {
       res.status(404).end();
     } else {
-      const result = await usersRep.remove(req.params.id);
+      const result = await usersRep.remove(req.query.id);
       res.send(result);
     }
   } catch (e) {

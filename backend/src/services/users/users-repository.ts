@@ -13,6 +13,7 @@ const getAll = () =>
   esClient
     .search({
       index,
+      size: 10000,
     })
     .then((response) => response)
     .catch((error) => {

@@ -13,6 +13,7 @@ const getAll = () =>
   esClient
     .search({
       index,
+      size: 10_000,
     })
     .then((response) => response)
     .catch((error) => {
@@ -81,6 +82,7 @@ const getTasks = (user_id) =>
   esClient
     .search({
       index,
+      size: 10_000,
       body: {
         query: {
           match: {

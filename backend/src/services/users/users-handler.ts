@@ -1,5 +1,6 @@
 import usersRep from "./users-repository";
 import bcrypt from "bcrypt";
+import { User } from "../../../../frontend/src/app/auth/auth.service";
 
 async function getUsers(req, res) {
   try {
@@ -17,43 +18,69 @@ async function getUsers(req, res) {
 }
 
 async function create(req, res) {
-  res.set("Content-Type", "application/json");
   try {
     const userBool = await userExist(req.body.nickname);
     if (userBool) {
-      res.send({});
+      res.status(400).send("user already exists");
     } else {
       const r = await usersRep.store({
         nickname: req.body.nickname,
         hashed_password: encryptPassword(req.body.password),
       });
-      res.send({
-        nickname: "ok",
-      });
+
+      const user: User = {
+        id: r._id,
+        nickname: req.body.nickname,
+      };
+      res.json(user);
     }
   } catch (e) {
-    res.status(400).end();
+    res.status(400).send("???");
   }
 }
 
 async function login(req, res) {
   try {
     const result = await usersRep.getUser(req.body.nickname);
-    const user = result.hits.hits[0];
+    const userRes = result.hits.hits[0];
 
     const isPasswordCorrect = await bcrypt.compare(
       req.body.password,
-      user._source.hashed_password
+      userRes._source.hashed_password
     );
     if (isPasswordCorrect === true) {
-      req.session.userId = user._id;
-      res.send({ id: user._id, nickname: user._source.nickname });
+      req.session.userId = userRes._id;
+      const user: User = {
+        id: userRes._id,
+        nickname: userRes._source.nickname,
+      };
+      res.json(user);
     } else {
-      res.send({ error: "wrong password", code: 401 });
+      res.status(401).send("wrong password");
     }
   } catch (e) {
-    console.log("error getting user", e);
-    res.send({ error: "User Not Found", code: 400 });
+    res.status(400).send("user not found");
+  }
+}
+
+async function logout(req, res) {
+  if (res.session?.userId) res.session.userId = undefined;
+  res.json({ ok: "OK" });
+}
+
+async function currentUser(req, res) {
+  if (req.session?.userId && (await userExistbyId(req.session.userId))) {
+    // ! userRes is null, crash
+    console.log(req.session.userId);
+    const userRes = (await usersRep.getUserById(req.session.userId)).hits
+      .hits[0];
+    const user: User = {
+      id: userRes._id,
+      nickname: userRes._source.nickname,
+    };
+    res.json(user);
+  } else {
+    res.json(null);
   }
 }
 
@@ -102,5 +129,7 @@ export default {
   create,
   login,
   userExist,
+  logout,
   userExistbyId,
+  currentUser,
 };

@@ -59,10 +59,8 @@ const getUserById = (id) =>
       index,
       body: {
         query: {
-          match: {
-            id: {
-              query: id,
-            },
+          terms: {
+            _id: [id],
           },
         },
       },

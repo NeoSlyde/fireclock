@@ -8,7 +8,7 @@ app.use(session({ secret: "SECRET", resave: false, cookie: {} }));
 app.use(express.json());
 
 import router from "./services/users/users-routage";
-app.use("/", router);
+app.use("/api", router);
 
 app.use(express.static("../frontend/dist/fireclock-frontend"));
 

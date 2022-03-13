@@ -1,12 +1,12 @@
 <nav class="nav">
   <ul>
-    <li routerLink="">{{ langService.appName() }}</li>
+    <li routerLink="/">{{ langService.appName() }}</li>
     <ng-container *ngIf="currentUser === null">
-      <li routerLink="login">{{ langService.login() }}</li>
-      <li routerLink="register">{{ langService.register() }}</li>
+      <li routerLink="/login">{{ langService.login() }}</li>
+      <li routerLink="/register">{{ langService.register() }}</li>
     </ng-container>
     <ng-container *ngIf="currentUser !== null">
-      <li routerLink="tasks">{{ langService.tasks() }}</li>
+      <li routerLink="/tasks">{{ langService.tasks() }}</li>
     </ng-container>
   </ul>
 </nav>

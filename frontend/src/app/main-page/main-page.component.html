@@ -8,14 +8,14 @@
       <button
         *ngIf="!(authService.currentUser() | async)"
         class="register-now"
-        routerLink="register"
+        routerLink="/register"
       >
         {{ this.langService.registerNow() }}
       </button>
       <button
         *ngIf="authService.currentUser() | async"
         class="tasks-call-to-action"
-        routerLink="tasks"
+        routerLink="/tasks"
       >
         {{ this.langService.manageTasks() }}
       </button>

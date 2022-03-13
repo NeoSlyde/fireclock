@@ -64,9 +64,81 @@ const getTasks = (user_id) =>
       handleElasticsearchError(error);
     });
 
+const updateName = (task_id, newName) => {
+  esClient
+    ._updateById({
+      index,
+      refresh: "true",
+      body: {
+        query: {
+          terms: {
+            _id: [task_id],
+          },
+          match: {
+            name: {
+              query: newName,
+            },
+          },
+        },
+      },
+    })
+    .then((response) => {
+      return response;
+    });
+};
+
+const updateQuota = (task_id, newQuota) => {
+  esClient
+    ._updateById({
+      index,
+      refresh: "true",
+      body: {
+        query: {
+          terms: {
+            _id: [task_id],
+          },
+          match: {
+            quota: {
+              query: newQuota,
+            },
+          },
+        },
+      },
+    })
+    .then((response) => {
+      return response;
+    });
+};
+
+const updateQuotaInterval = (task_id, newQuotaInterval) => {
+  esClient
+    ._updateById({
+      index,
+      refresh: "true",
+      body: {
+        query: {
+          terms: {
+            _id: [task_id],
+          },
+          match: {
+            quotaInterval: {
+              query: newQuotaInterval,
+            },
+          },
+        },
+      },
+    })
+    .then((response) => {
+      return response;
+    });
+};
+
 export default {
   getTasks,
   store,
   getAll,
   remove,
+  updateName,
+  updateQuota,
+  updateQuotaInterval,
 };

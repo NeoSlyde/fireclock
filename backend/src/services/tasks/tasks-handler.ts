@@ -18,7 +18,7 @@ async function getTasks(req, res) {
 async function create(req, res) {
   res.set("Content-Type", "application/json");
   try {
-    const taskBool = await TaskExist(req.body.task_id);
+    const taskBool = await taskExist(req.body.task_id);
     if (taskBool) {
       res.send({});
     } else {
@@ -39,17 +39,60 @@ async function create(req, res) {
   }
 }
 
-async function deleteTask(task) {
+async function deleteTask(req, res) {
   try {
-    const result = await tasksRep.remove(task);
-    return result ? true : false;
+    const userBool = await taskExist(req.params.id);
+    if (!userBool) {
+      res.status(404).end();
+    } else {
+      const result = await tasksRep.remove(req.params.id);
+      res.send(result);
+    }
   } catch (e) {
-    console.log("error getting user", e);
-    return false;
+    res.status(400).end();
   }
 }
 
-async function TaskExist(id) {
+async function updateName(req, res) {
+  try {
+    const taskBool = await taskExist(req.body.task_id);
+    if (taskBool) {
+      const newTask = await tasksRep.updateName(
+        req.body.task_id,
+        req.body.value
+      );
+      res.json(newTask);
+    }
+  } catch (error) {}
+}
+
+async function updateQuota(req, res) {
+  try {
+    const taskBool = await taskExist(req.body.task_id);
+    if (taskBool) {
+      const newTask = await tasksRep.updateQuota(
+        req.body.task_id,
+        req.body.value
+      );
+      res.json(newTask);
+    }
+  } catch (error) {}
+}
+
+async function updateQuotaInterval(req, res) {
+  try {
+    const taskBool = await taskExist(req.body.task_id);
+    if (taskBool) {
+      const newTask = await tasksRep.updateQuotaInterval(
+        req.body.task_id,
+        req.body.value
+      );
+      res.json(newTask);
+    }
+  } catch (error) {}
+}
+
+async function taskExist(id) {
   try {
     const result = await tasksRep.getTasks(id);
     return result ? true : false;
@@ -71,7 +114,10 @@ async function getTaskOfUser(req, res) {
 export default {
   getTasks,
   create,
-  TaskExist,
+  taskExist,
   deleteTask,
   getTaskOfUser,
+  updateName,
+  updateQuota,
+  updateQuotaInterval,
 };

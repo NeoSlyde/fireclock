@@ -24,11 +24,13 @@ async function create(req, res) {
       res.send({});
     } else {
       const r = await done_tasksRep.store({
-        done_taskName: req.body.done_taskName,
-        hashed_password: encryptPassword(req.body.password),
+        id: req.body.id,
+        task_id: req.body.task_id,
+        duration: req.body.duration,
+        created: req.body.created,
       });
       res.send({
-        done_taskName: "ok",
+        id: "ok",
       });
     }
   } catch (e) {
@@ -44,12 +46,6 @@ async function deleteDoneTask(done_tasks) {
     console.log("error getting done_task", e);
     return false;
   }
-}
-
-function encryptPassword(password) {
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(password, salt);
-  return hash;
 }
 
 async function done_taskExist(done_taskName) {

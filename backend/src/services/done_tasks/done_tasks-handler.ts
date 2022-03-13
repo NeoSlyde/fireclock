@@ -18,7 +18,6 @@ async function getDone_tasks(req, res) {
 
 async function create(req, res) {
   res.set("Content-Type", "application/json");
-  console.log(req.body);
   try {
     const done_taskBool = await done_taskExist(req.body.done_taskName);
     if (done_taskBool) {
@@ -28,7 +27,6 @@ async function create(req, res) {
         done_taskName: req.body.done_taskName,
         hashed_password: encryptPassword(req.body.password),
       });
-      console.log("pass", r);
       res.send({
         done_taskName: "ok",
       });

@@ -17,16 +17,17 @@ async function getTasks(req, res) {
 
 async function create(req, res) {
   res.set("Content-Type", "application/json");
-  console.log(req.body);
   try {
     const taskBool = await TaskExist(req.body.task_id);
     if (taskBool) {
       res.send({});
     } else {
       const r = await tasksRep.store({
-        id: req.body.id,
+        user_id: req.body.user_id,
+        parent_id: req.body.parent_id,
         children: req.body.children,
         name: req.body.name,
+        quota: req.body.quota,
         quotaInterval: req.body.quotaInterval,
       });
       res.send({
@@ -58,9 +59,19 @@ async function TaskExist(id) {
   }
 }
 
+async function getTaskOfUser(req, res) {
+  try {
+    const result = await tasksRep.getTasks(req.session.userId);
+    res.send(result.hits.hits.map((task) => task._source));
+  } catch (e) {
+    res.status(400).end();
+  }
+}
+
 export default {
   getTasks,
   create,
   TaskExist,
   deleteTask,
+  getTaskOfUser,
 };

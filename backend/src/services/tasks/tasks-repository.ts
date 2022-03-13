@@ -43,15 +43,15 @@ const remove = (task) =>
       handleElasticsearchError(error);
     });
 
-const getTasks = (id) =>
+const getTasks = (user_id) =>
   esClient
     .search({
       index,
       body: {
         query: {
           match: {
-            id: {
-              query: id,
+            user_id: {
+              query: user_id,
             },
           },
         },

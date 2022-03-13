@@ -8,7 +8,7 @@
     <ng-container *ngIf="currentUser !== null">
       <li routerLink="/tasks">{{ langService.tasks() }}</li>
       <li routerLink="/" (click)="authService.logout()">
-        {{ langService.logout() }}
+        {{ langService.logout() }} ({{ currentUser.nickname }})
       </li>
     </ng-container>
   </ul>

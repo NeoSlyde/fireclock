@@ -64,8 +64,8 @@ async function updateQuota(req, res) {
     const taskBool = await taskExist(req.body.taskId);
     if (taskBool) {
       const newTask = await tasksRep.updateQuota(
-        req.body.taksId,
-        req.body.name
+        req.body.taskId,
+        req.body.quota
       );
       res.json(newTask);
     }
@@ -74,11 +74,11 @@ async function updateQuota(req, res) {
 
 async function updateQuotaInterval(req, res) {
   try {
-    const taskBool = await taskExist(req.body.task_id);
+    const taskBool = await taskExist(req.body.taskId);
     if (taskBool) {
       const newTask = await tasksRep.updateQuotaInterval(
-        req.body.task_id,
-        req.body.value
+        req.body.taskId,
+        req.body.quotaInterval
       );
       res.json(newTask);
     }

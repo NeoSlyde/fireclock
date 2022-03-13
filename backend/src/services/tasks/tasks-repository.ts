@@ -143,7 +143,7 @@ const updateName = (task_id, newName) => {
 
 const updateQuota = (task_id, newQuota) => {
   esClient
-    ._updateById({
+    .updateByQuery({
       index,
       refresh: "true",
       body: {
@@ -151,10 +151,11 @@ const updateQuota = (task_id, newQuota) => {
           terms: {
             _id: [task_id],
           },
-          match: {
-            quota: {
-              query: newQuota,
-            },
+        },
+        script: {
+          source: "ctx._source.quota = params.newQuota",
+          params: {
+            newQuota,
           },
         },
       },
@@ -166,7 +167,7 @@ const updateQuota = (task_id, newQuota) => {
 
 const updateQuotaInterval = (task_id, newQuotaInterval) => {
   esClient
-    ._updateById({
+    .updateByQuery({
       index,
       refresh: "true",
       body: {
@@ -174,10 +175,11 @@ const updateQuotaInterval = (task_id, newQuotaInterval) => {
           terms: {
             _id: [task_id],
           },
-          match: {
-            quotaInterval: {
-              query: newQuotaInterval,
-            },
+        },
+        script: {
+          source: "ctx._source.quotaInterval = params.newQuotaInterval",
+          params: {
+            newQuotaInterval,
           },
         },
       },

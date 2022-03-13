@@ -73,27 +73,33 @@ export class HttpTaskService extends TasksService {
     }
   }
 
-  async updateChildren(taskId: string, children: Task): Promise<void> {
+  override async updateQuota(taskId: string, quota: number): Promise<void> {
     try {
       const task = await firstValueFrom(
         this.http.post<Task>(
-          "/api/update-task-children",
-          { taskId, children },
+          "/api//update-task-quota",
+          { taskId, quota },
           jsonContentTypeOptions
         )
       );
     } catch (error) {
-      throw new Error("Error");
+      throw new Error("Error: Create Task");
     }
-  }
-
-  override async updateQuota(taskId: string, quota: number): Promise<void> {
-    throw new Error("Method not implemented.");
   }
   override async updateQuotaInterval(
     taskId: string,
     quotaInterval: Interval
   ): Promise<void> {
-    throw new Error("Method not implemented.");
+    try {
+      const task = await firstValueFrom(
+        this.http.post<Task>(
+          "/api//update-task-quotaInterval",
+          { taskId, quotaInterval },
+          jsonContentTypeOptions
+        )
+      );
+    } catch (error) {
+      throw new Error("Error: Create Task");
+    }
   }
 }

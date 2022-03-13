@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { map, mergeMap, Observable, of } from "rxjs";
 import { Activity, ActivityService } from "src/app/activities/activity.service";
-import { Task, TasksService } from "src/app/tasks/tasks.service";
+import { Interval, Task, TasksService } from "src/app/tasks/tasks.service";
 
 @Component({
   selector: "app-single-task-page",
@@ -53,5 +53,29 @@ export class SingleTaskPageComponent implements OnInit {
 
   onDelete(activityId: string) {
     this.activityService.delete(activityId);
+  }
+
+  dateRoundedInterval(date: Date, interval: Interval): Date {
+    let newDate = new Date(date);
+    if (interval === "year") newDate.setMonth(0), newDate.setDate(1);
+    if (interval === "month") newDate.setDate(1);
+    if (interval === "week")
+      newDate.setDate(
+        date.getDate() - (date.getDay() === 0 ? 6 : date.getDay() - 1)
+      );
+    newDate.setHours(0);
+    newDate.setMinutes(0);
+    newDate.setSeconds(0);
+    newDate.setMilliseconds(0);
+    return newDate;
+  }
+
+  test() {
+    return [
+      this.dateRoundedInterval(new Date(), "day"),
+      this.dateRoundedInterval(new Date(), "week"),
+      this.dateRoundedInterval(new Date(), "month"),
+      this.dateRoundedInterval(new Date(), "year"),
+    ];
   }
 }

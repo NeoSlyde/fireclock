@@ -35,4 +35,12 @@ export class LangEnService extends LangService {
   userAlreadyExists(): string {
     return "User already exists";
   }
+
+  userDoesntExists(): string {
+    return "User doesn't exists";
+  }
+
+  wrongPassword(): string {
+    return "Wrong Password";
+  }
 }

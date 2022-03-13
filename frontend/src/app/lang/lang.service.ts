@@ -14,4 +14,6 @@ export abstract class LangService {
   abstract password(): string;
   abstract nickname(): string;
   abstract userAlreadyExists(): string;
+  abstract userDoesntExists(): string;
+  abstract wrongPassword(): string;
 }

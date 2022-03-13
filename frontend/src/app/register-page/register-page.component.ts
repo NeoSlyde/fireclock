@@ -4,7 +4,6 @@ import { Router } from "@angular/router";
 import { UserAlreadyExistsException } from "../auth/auth.exceptions";
 import { AuthService } from "../auth/auth.service";
 import { LangService } from "../lang/lang.service";
-import { HttpService } from "../service/http.service";
 
 @Component({
   selector: "app-register-page",
@@ -15,41 +14,23 @@ export class RegisterPageComponent {
   constructor(
     readonly authService: AuthService,
     readonly langService: LangService,
-    readonly router: Router,
-    readonly httpService: HttpService
+    readonly router: Router
   ) {}
 
   onSubmit(self: NgForm) {
     const nickname = self.value.nickname;
     const password = self.value.password;
-
     this.authService
-      .register(nickname, password)
+      .registerAndLogin(nickname, password)
+      .then((user) => {
+        this.router.navigateByUrl("");
+      })
       .catch((error) => {
         if (error instanceof UserAlreadyExistsException) {
           alert(this.langService.userAlreadyExists());
         } else {
           throw error;
         }
-      })
-      .then((user) => {
-        this.httpService.createUser(user).subscribe(
-          (response) => {
-            if (response && response.nickname === "ok") {
-              alert("User crée");
-            } else {
-              alert("User Existe !");
-            }
-          },
-          (e) => {
-            console.log("erreur", e);
-          },
-          () => {
-            this.router.navigateByUrl("/");
-          }
-        );
-
-        this.router.navigateByUrl("");
       });
   }
 }

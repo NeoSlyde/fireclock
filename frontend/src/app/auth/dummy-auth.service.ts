@@ -26,8 +26,8 @@ export class DummyAuthService extends AuthService {
     return u ?? null;
   }
 
-  override currentUser(): Observable<User> {
-    throw this._currentUserSubject;
+  override currentUser(): Observable<User | null> {
+    return this._currentUserSubject;
   }
 
   override async login(nickname: string, password: string): Promise<void> {
@@ -43,6 +43,7 @@ export class DummyAuthService extends AuthService {
     if (u !== null) throw new UserAlreadyExistsException(nickname);
     const user = { id: "user-" + Math.random(), nickname, password };
     this._userDb.push(user);
+    this._passwords.set(user.id, password);
     return user;
   }
 }

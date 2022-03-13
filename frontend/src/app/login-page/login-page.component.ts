@@ -1,10 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
-import { UserAlreadyExistsException } from "../auth/auth.exceptions";
+import {
+  UserDoesntExistException,
+  WrongPasswordException,
+} from "../auth/auth.exceptions";
 import { AuthService } from "../auth/auth.service";
 import { LangService } from "../lang/lang.service";
-import { HttpService } from "../service/http.service";
 
 @Component({
   selector: "app-login-page",
@@ -15,28 +17,26 @@ export class LoginPageComponent {
   constructor(
     readonly authService: AuthService,
     readonly langService: LangService,
-    readonly router: Router,
-    readonly httpService: HttpService
+    readonly router: Router
   ) {}
 
   onSubmit(self: NgForm) {
     const nickname = self.value.nickname;
     const password = self.value.password;
 
-    this.authService.login(nickname, password).then((user) => {
-      this.httpService.login(user).subscribe(
-        (response) => {
-          alert("Connecté!");
-        },
-        (e) => {
-          alert("Mauvais identifiant ou mot de passe !");
-        },
-        () => {
-          this.router.navigateByUrl("/");
+    this.authService
+      .login(nickname, password)
+      .then((user) => {
+        this.router.navigateByUrl("");
+      })
+      .catch((error) => {
+        if (error instanceof UserDoesntExistException) {
+          alert(this.langService.userDoesntExists());
+        } else if (error instanceof WrongPasswordException) {
+          alert(this.langService.wrongPassword());
+        } else {
+          throw error;
         }
-      );
-
-      this.router.navigateByUrl("");
-    });
+      });
   }
 }

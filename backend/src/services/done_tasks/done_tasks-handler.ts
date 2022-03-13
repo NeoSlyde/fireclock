@@ -41,9 +41,13 @@ async function create(req, res) {
       duration: req.body.duration,
       created: req.body.created,
     });
-    res.send({
-      id: "ok",
-    });
+    const task: Activity = {
+      id: r._id,
+      taskId: req.body.taskId,
+      duration: req.body.duration,
+      created: req.body.created,
+    };
+    res.send(task);
   } catch (e) {
     res.status(400).end();
   }

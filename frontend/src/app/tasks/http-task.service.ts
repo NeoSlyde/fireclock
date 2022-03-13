@@ -18,8 +18,6 @@ export class HttpTaskService extends TasksService {
 
   constructor(readonly http: HttpClient) {
     super();
-    console.log("ok");
-
     firstValueFrom(
       this.http.get<Task[] | []>("/api/task-list", jsonContentTypeOptions)
     ).then((u) => this._tasksDb.next(u));
@@ -63,7 +61,18 @@ export class HttpTaskService extends TasksService {
     }
   }
   override async updateName(taskId: string, name: string): Promise<void> {
-    throw new Error("Method not implemented.");
+    try {
+      console.log("sending id", taskId);
+      const task = await firstValueFrom(
+        this.http.post<Task>(
+          "/api/update-task",
+          { taskId, name },
+          jsonContentTypeOptions
+        )
+      );
+    } catch (error) {
+      throw new Error("Error: Create Task");
+    }
   }
   override async updateQuota(taskId: string, quota: number): Promise<void> {
     throw new Error("Method not implemented.");

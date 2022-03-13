@@ -21,6 +21,7 @@ import { DummyActivityService } from "./activities/dummy-activity.service";
 import { SingleTaskPageComponent } from "./task-page/single-task-page/single-task-page.component";
 import { MinutesToTimePipe } from "./misc/minutes-to-time.pipe";
 import { HttpAuthService } from "./auth/http-auth.service";
+import { HttpTaskService } from "./tasks/http-task.service";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { HttpAuthService } from "./auth/http-auth.service";
   providers: [
     { provide: LangService, useClass: LangFrService },
     { provide: AuthService, useClass: HttpAuthService },
-    { provide: TasksService, useClass: DummyTasksService },
+    { provide: TasksService, useClass: HttpTaskService },
     { provide: ActivityService, useClass: DummyActivityService },
   ],
   bootstrap: [AppComponent],

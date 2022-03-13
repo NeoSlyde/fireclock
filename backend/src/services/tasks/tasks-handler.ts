@@ -18,22 +18,17 @@ async function getTasks(req, res) {
 async function create(req, res) {
   res.set("Content-Type", "application/json");
   try {
-    const taskBool = await taskExist(req.body.task_id);
-    if (taskBool) {
-      res.send({});
-    } else {
-      const r = await tasksRep.store({
-        user_id: req.body.user_id,
-        parent_id: req.body.parent_id,
-        children: req.body.children,
-        name: req.body.name,
-        quota: req.body.quota,
-        quotaInterval: req.body.quotaInterval,
-      });
-      res.send({
-        task_id: "ok",
-      });
-    }
+    const r = await tasksRep.store({
+      user_id: req.session.userId,
+      parent_id: req.body.parent_id,
+      children: [],
+      name: req.body.name,
+      quota: req.body.quota,
+      quotaInterval: req.body.quotaInterval,
+    });
+    res.send({
+      task_id: "ok",
+    });
   } catch (e) {
     res.status(400).end();
   }
@@ -55,7 +50,7 @@ async function deleteTask(req, res) {
 
 async function updateName(req, res) {
   try {
-    const taskBool = await taskExist(req.body.task_id);
+    const taskBool = await taskExist(req.body.taskId);
     if (taskBool) {
       const newTask = await tasksRep.updateName(
         req.body.task_id,
@@ -68,11 +63,11 @@ async function updateName(req, res) {
 
 async function updateQuota(req, res) {
   try {
-    const taskBool = await taskExist(req.body.task_id);
+    const taskBool = await taskExist(req.body.taskId);
     if (taskBool) {
       const newTask = await tasksRep.updateQuota(
-        req.body.task_id,
-        req.body.value
+        req.body.taksId,
+        req.body.name
       );
       res.json(newTask);
     }
@@ -105,7 +100,14 @@ async function taskExist(id) {
 async function getTaskOfUser(req, res) {
   try {
     const result = await tasksRep.getTasks(req.session.userId);
-    res.send(result.hits.hits.map((task) => task._source));
+    const finalArray = [];
+    for (let obj of result.hits.hits) {
+      finalArray.push({
+        ...obj._source,
+        id: obj._id,
+      });
+    }
+    res.send(finalArray);
   } catch (e) {
     res.status(400).end();
   }

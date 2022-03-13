@@ -1,0 +1,20 @@
+<ng-container *ngIf="task$ | async as task">
+  <h1>{{ task.name }}</h1>
+  <h2>Activity</h2>
+  <ul class="activities">
+    <li class="add-activity" (click)="addActivity(task.id)">Add Activity</li>
+    <li class="activity" *ngFor="let activity of task.activities">
+      <input
+        type="datetime-local"
+        [value]="activity.created | date: 'yyyy-MM-ddTHH:mm'"
+        (change)="onUpdateCreated(activity.id, $event.target)"
+      />
+      <input
+        type="time"
+        [value]="activity.duration | minutesToTime"
+        (change)="onUpdateDuration(activity.id, $event.target)"
+      />
+      <button (click)="onDelete(activity.id)">❌</button>
+    </li>
+  </ul>
+</ng-container>

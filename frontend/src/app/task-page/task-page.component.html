@@ -5,7 +5,7 @@
   >
     <div class="indent" [ngStyle]="{ width: 1.6 * task.indent + 'rem' }"></div>
     <div class="task">
-      <p>></p>
+      <p class="see-more" [routerLink]="'/tasks/' + task.task.id">🔍</p>
       <input
         type="text"
         placeholder="Task name"

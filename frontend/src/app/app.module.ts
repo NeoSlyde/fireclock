@@ -18,6 +18,8 @@ import { TasksService } from "./tasks/tasks.service";
 import { DummyTasksService } from "./tasks/dummy-tasks.service";
 import { ActivityService } from "./activities/activity.service";
 import { DummyActivityService } from "./activities/dummy-activity.service";
+import { SingleTaskPageComponent } from "./task-page/single-task-page/single-task-page.component";
+import { MinutesToTimePipe } from './misc/minutes-to-time.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { DummyActivityService } from "./activities/dummy-activity.service";
     RegisterPageComponent,
     LoginPageComponent,
     TaskPageComponent,
+    SingleTaskPageComponent,
+    MinutesToTimePipe,
   ],
   imports: [
     BrowserModule,

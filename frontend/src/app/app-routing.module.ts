@@ -4,12 +4,14 @@ import { MainPageComponent } from "./main-page/main-page.component";
 import { RegisterPageComponent } from "./register-page/register-page.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { TaskPageComponent } from "./task-page/task-page.component";
+import { SingleTaskPageComponent } from "./task-page/single-task-page/single-task-page.component";
 
 const routes: Routes = [
   { path: "", component: MainPageComponent },
   { path: "register", component: RegisterPageComponent },
   { path: "login", component: LoginPageComponent },
   { path: "tasks", component: TaskPageComponent },
+  { path: "tasks/:id", component: SingleTaskPageComponent },
   { path: "**", redirectTo: "" },
 ];
 

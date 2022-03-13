@@ -12,6 +12,8 @@ export interface Task {
   quotaInterval: Interval;
 }
 
+export const allIntervals: Interval[] = ["day", "week", "month", "year"];
+
 @Injectable({
   providedIn: "root",
 })
@@ -54,4 +56,6 @@ export abstract class TasksService {
       })
     );
   }
+
+  allIntervals: Interval[] = allIntervals;
 }

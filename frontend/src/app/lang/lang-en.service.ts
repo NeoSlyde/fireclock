@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Interval } from "../tasks/tasks.service";
 import { LangService } from "./lang.service";
 
 @Injectable({
@@ -50,5 +51,16 @@ export class LangEnService extends LangService {
 
   manageTasks(): string {
     return "Manage Tasks";
+  }
+
+  newTask(): string {
+    return "New Task";
+  }
+
+  minutesPer(): string {
+    return "Minutes per";
+  }
+  translateInterval(interval: Interval): string {
+    return interval;
   }
 }

@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Interval } from "../tasks/tasks.service";
 
 @Injectable({
   providedIn: "root",
@@ -18,4 +19,7 @@ export abstract class LangService {
   abstract wrongPassword(): string;
   abstract tasks(): string;
   abstract manageTasks(): string;
+  abstract newTask(): string;
+  abstract minutesPer(): string;
+  abstract translateInterval(interval: Interval): string;
 }

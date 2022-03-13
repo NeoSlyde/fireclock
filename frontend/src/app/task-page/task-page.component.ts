@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { map, Observable } from "rxjs";
+import { LangService } from "../lang/lang.service";
 import { Interval, TasksService } from "../tasks/tasks.service";
 
 @Component({
@@ -8,7 +9,10 @@ import { Interval, TasksService } from "../tasks/tasks.service";
   styleUrls: ["./task-page.component.sass"],
 })
 export class TaskPageComponent implements OnInit {
-  constructor(readonly tasksService: TasksService) {}
+  constructor(
+    readonly tasksService: TasksService,
+    readonly langService: LangService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -36,23 +40,5 @@ export class TaskPageComponent implements OnInit {
   onUpdateQuota(taskId: string, el: any) {
     const quotaMinutes = parseInt(el.value || "0");
     this.tasksService.updateQuota(taskId, quotaMinutes);
-  }
-
-  intervalOptions: {
-    value: Interval;
-    name: String;
-  }[] = [
-    { value: "day", name: "day" },
-    { value: "week", name: "week" },
-    { value: "month", name: "month" },
-    { value: "year", name: "year" },
-  ];
-  getIntervalOptionObject(interval: Interval): {
-    value: Interval;
-    name: String;
-  } {
-    console.log(this.intervalOptions.find((x) => x.value === interval)!);
-
-    return this.intervalOptions.find((x) => x.value === interval)!;
   }
 }

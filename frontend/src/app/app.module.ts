@@ -4,7 +4,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AuthService } from "./auth/auth.service";
-import { LangEnService } from "./lang/lang-en.service";
+import { LangFrService } from "./lang/lang-fr.service";
 import { LangService } from "./lang/lang.service";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { MainPageComponent } from "./main-page/main-page.component";
@@ -34,7 +34,7 @@ import { DummyTasksService } from "./tasks/dummy-tasks.service";
     HttpClientModule,
   ],
   providers: [
-    { provide: LangService, useClass: LangEnService },
+    { provide: LangService, useClass: LangFrService },
     { provide: AuthService, useClass: DummyAuthService },
     { provide: TasksService, useClass: DummyTasksService },
   ],

@@ -9,10 +9,6 @@ tasksRouter.get("/task-list", asyncHandler(tasksHandler.getTaskOfUser));
 tasksRouter.post("/new-task", asyncHandler(tasksHandler.create));
 tasksRouter.post("/delete-task", asyncHandler(tasksHandler.deleteTask));
 tasksRouter.post("/update-task", asyncHandler(tasksHandler.updateName));
-tasksRouter.post(
-  "/update-task-children",
-  asyncHandler(tasksHandler.updateChildren)
-);
 tasksRouter.post("/update-task-quota", asyncHandler(tasksHandler.updateQuota));
 tasksRouter.post(
   "/update-task-quotaInterval",

@@ -111,20 +111,6 @@ async function getTaskOfUser(req, res) {
   }
 }
 
-async function updateChildren(req, res) {
-  try {
-    const taskBool = await taskExist(req.body.taskId);
-    if (taskBool) {
-      console.log("attempting to update children");
-      const newTask = await tasksRep.updateChildren(
-        req.body.taskId,
-        req.body.name
-      );
-      res.json(newTask);
-    }
-  } catch (error) {}
-}
-
 export default {
   getTasks,
   create,
@@ -134,5 +120,4 @@ export default {
   updateName,
   updateQuota,
   updateQuotaInterval,
-  updateChildren,
 };

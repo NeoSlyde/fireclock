@@ -36,11 +36,11 @@ async function create(req, res) {
 
 async function deleteTask(req, res) {
   try {
-    const userBool = await taskExist(req.params.id);
+    const userBool = await taskExist(req.body.taskId);
     if (!userBool) {
       res.status(404).end();
     } else {
-      const result = await tasksRep.remove(req.params.id);
+      const result = await tasksRep.remove(req.body.taskId);
       res.send(result);
     }
   } catch (e) {
@@ -52,10 +52,8 @@ async function updateName(req, res) {
   try {
     const taskBool = await taskExist(req.body.taskId);
     if (taskBool) {
-      const newTask = await tasksRep.updateName(
-        req.body.task_id,
-        req.body.value
-      );
+      console.log("attempting to update name");
+      const newTask = await tasksRep.updateName(req.body.taskId, req.body.name);
       res.json(newTask);
     }
   } catch (error) {}
@@ -89,7 +87,7 @@ async function updateQuotaInterval(req, res) {
 
 async function taskExist(id) {
   try {
-    const result = await tasksRep.getTasks(id);
+    const result = await tasksRep.getTask(id);
     return result ? true : false;
   } catch (e) {
     console.log("error getting task", e);

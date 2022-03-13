@@ -62,7 +62,6 @@ export class HttpTaskService extends TasksService {
   }
   override async updateName(taskId: string, name: string): Promise<void> {
     try {
-      console.log("sending id", taskId);
       const task = await firstValueFrom(
         this.http.post<Task>(
           "/api/update-task",

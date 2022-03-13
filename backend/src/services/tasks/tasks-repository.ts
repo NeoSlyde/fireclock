@@ -31,17 +31,27 @@ const store = (task) =>
       handleElasticsearchError(error);
     });
 
-const remove = (task) =>
-  esClient
-    .index({
+const remove = (task) => {
+  const { taskId } = task;
+  return esClient
+    .deleteByQuery({
       index,
       refresh: "true",
-      body: task,
+      body: {
+        query: {
+          terms: {
+            _id: [task],
+          },
+        },
+      },
     })
-    .then((response) => response)
+    .then((response) => {
+      return response;
+    })
     .catch((error) => {
       handleElasticsearchError(error);
     });
+};
 
 const getTasks = (user_id) =>
   esClient
@@ -64,9 +74,28 @@ const getTasks = (user_id) =>
       handleElasticsearchError(error);
     });
 
+const getTask = (task_id) =>
+  esClient
+    .search({
+      index,
+      body: {
+        query: {
+          terms: {
+            _id: [task_id],
+          },
+        },
+      },
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      handleElasticsearchError(error);
+    });
+
 const updateName = (task_id, newName) => {
   esClient
-    ._updateById({
+    .updateByQuery({
       index,
       refresh: "true",
       body: {
@@ -74,10 +103,11 @@ const updateName = (task_id, newName) => {
           terms: {
             _id: [task_id],
           },
-          match: {
-            name: {
-              query: newName,
-            },
+        },
+        script: {
+          source: "ctx._source.name = params.newName",
+          params: {
+            newName,
           },
         },
       },
@@ -135,6 +165,7 @@ const updateQuotaInterval = (task_id, newQuotaInterval) => {
 
 export default {
   getTasks,
+  getTask,
   store,
   getAll,
   remove,

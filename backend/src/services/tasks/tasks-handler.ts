@@ -20,7 +20,7 @@ async function create(req, res) {
   try {
     const r = await tasksRep.store({
       user_id: req.session.userId,
-      parent_id: req.body.parent_id,
+      parent_id: req.body.parentId,
       children: [],
       name: req.body.name,
       quota: req.body.quota,
@@ -111,6 +111,20 @@ async function getTaskOfUser(req, res) {
   }
 }
 
+async function updateChildren(req, res) {
+  try {
+    const taskBool = await taskExist(req.body.taskId);
+    if (taskBool) {
+      console.log("attempting to update children");
+      const newTask = await tasksRep.updateChildren(
+        req.body.taskId,
+        req.body.name
+      );
+      res.json(newTask);
+    }
+  } catch (error) {}
+}
+
 export default {
   getTasks,
   create,
@@ -120,4 +134,5 @@ export default {
   updateName,
   updateQuota,
   updateQuotaInterval,
+  updateChildren,
 };

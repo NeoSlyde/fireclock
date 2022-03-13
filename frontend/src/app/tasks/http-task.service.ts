@@ -37,7 +37,6 @@ export class HttpTaskService extends TasksService {
           jsonContentTypeOptions
         )
       );
-
       return task;
     } catch (error) {
       throw new Error("Error: Create Task");
@@ -73,6 +72,21 @@ export class HttpTaskService extends TasksService {
       throw new Error("Error: Create Task");
     }
   }
+
+  async updateChildren(taskId: string, children: Task): Promise<void> {
+    try {
+      const task = await firstValueFrom(
+        this.http.post<Task>(
+          "/api/update-task-children",
+          { taskId, children },
+          jsonContentTypeOptions
+        )
+      );
+    } catch (error) {
+      throw new Error("Error");
+    }
+  }
+
   override async updateQuota(taskId: string, quota: number): Promise<void> {
     throw new Error("Method not implemented.");
   }

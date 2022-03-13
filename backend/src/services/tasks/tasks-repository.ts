@@ -117,6 +117,31 @@ const updateName = (task_id, newName) => {
     });
 };
 
+const updateChildren = (task_id, newChildren) => {
+  console.log(newChildren);
+  esClient
+    .updateByQuery({
+      index,
+      refresh: "true",
+      body: {
+        query: {
+          terms: {
+            _id: [task_id],
+          },
+        },
+        script: {
+          source: "ctx._source.children = params.newChildren",
+          params: {
+            newChildren,
+          },
+        },
+      },
+    })
+    .then((response) => {
+      return response;
+    });
+};
+
 const updateQuota = (task_id, newQuota) => {
   esClient
     ._updateById({
@@ -172,4 +197,5 @@ export default {
   updateName,
   updateQuota,
   updateQuotaInterval,
+  updateChildren,
 };

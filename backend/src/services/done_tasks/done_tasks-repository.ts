@@ -31,7 +31,7 @@ const store = (doneTasks) =>
       handleElasticsearchError(error);
     });
 
-const deleteDoneTask = (doneTasks) =>
+const remove = (doneTasks) =>
   esClient
     .index({
       index,
@@ -43,30 +43,79 @@ const deleteDoneTask = (doneTasks) =>
       handleElasticsearchError(error);
     });
 
-const getDoneTasks = (doneTasks) =>
+const getDoneTasksOfTask = (taskId) =>
   esClient
     .search({
       index,
       body: {
         query: {
           match: {
-            userName: {
-              query: doneTasks,
+            taskId: {
+              query: taskId,
             },
           },
         },
       },
     })
     .then((response) => {
-      response;
+      return response;
     })
     .catch((error) => {
       handleElasticsearchError(error);
     });
 
+const updateDuration = (taskId, newDuration) => {
+  esClient
+    .updateByQuery({
+      index,
+      refresh: "true",
+      body: {
+        query: {
+          terms: {
+            _id: [taskId],
+          },
+        },
+        script: {
+          source: "ctx._source.duration = params.newDuration",
+          params: {
+            newDuration,
+          },
+        },
+      },
+    })
+    .then((response) => {
+      return response;
+    });
+};
+
+const updateCreated = (taskId, newCreated) => {
+  esClient
+    .updateByQuery({
+      index,
+      refresh: "true",
+      body: {
+        query: {
+          terms: {
+            _id: [taskId],
+          },
+        },
+        script: {
+          source: "ctx._source.created = params.newCreated",
+          params: {
+            newCreated,
+          },
+        },
+      },
+    })
+    .then((response) => {
+      return response;
+    });
+};
 export default {
-  getDoneTasks,
   store,
   getAll,
-  deleteDoneTask,
+  remove,
+  updateCreated,
+  updateDuration,
+  getDoneTasksOfTask,
 };

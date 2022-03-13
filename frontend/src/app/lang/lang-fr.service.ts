@@ -25,6 +25,9 @@ export class LangFrService extends LangService {
   login(): string {
     return "Se connecter";
   }
+  logout(): string {
+    return "Se déconnecter";
+  }
   password(): string {
     return "Mot de passe";
   }

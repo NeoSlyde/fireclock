@@ -12,6 +12,7 @@ export abstract class LangService {
   abstract registerNow(): string;
   abstract register(): string;
   abstract login(): string;
+  abstract logout(): string;
   abstract password(): string;
   abstract nickname(): string;
   abstract userAlreadyExists(): string;

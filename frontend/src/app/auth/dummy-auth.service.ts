@@ -38,6 +38,10 @@ export class DummyAuthService extends AuthService {
     this._currentUserSubject.next(u ?? null);
   }
 
+  override async logout(): Promise<void> {
+    this._currentUserSubject.next(null);
+  }
+
   override async register(nickname: string, password: string): Promise<User> {
     const u = await this._getUserByNickname(nickname);
     if (u !== null) throw new UserAlreadyExistsException(nickname);

@@ -25,6 +25,11 @@ export class LangEnService extends LangService {
   login(): string {
     return "Login";
   }
+
+  logout(): string {
+    return "Logout";
+  }
+
   password(): string {
     return "Password";
   }

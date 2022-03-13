@@ -24,6 +24,8 @@ export abstract class AuthService {
   //   - UserAlreadyExistsException
   abstract register(nickname: string, password: string): Promise<User>;
 
+  abstract logout(): Promise<void>;
+
   // Can throw the exceptions of both login and register.
   async registerAndLogin(nickname: string, password: string): Promise<User> {
     const user = await this.register(nickname, password);

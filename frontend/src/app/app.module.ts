@@ -16,6 +16,8 @@ import { TaskPageComponent } from "./task-page/task-page.component";
 import { DummyAuthService } from "./auth/dummy-auth.service";
 import { TasksService } from "./tasks/tasks.service";
 import { DummyTasksService } from "./tasks/dummy-tasks.service";
+import { ActivityService } from "./activities/activity.service";
+import { DummyActivityService } from "./activities/dummy-activity.service";
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { DummyTasksService } from "./tasks/dummy-tasks.service";
     { provide: LangService, useClass: LangFrService },
     { provide: AuthService, useClass: DummyAuthService },
     { provide: TasksService, useClass: DummyTasksService },
+    { provide: ActivityService, useClass: DummyActivityService },
   ],
   bootstrap: [AppComponent],
 })

@@ -8,7 +8,7 @@ export interface Task {
   id: string;
   name: string;
   children: Task[];
-  quota: number;
+  quota: number; // In Minutes
   quotaInterval: Interval;
 }
 
@@ -54,6 +54,13 @@ export abstract class TasksService {
         }
         return tasks.flatMap((t) => recursive(0, t));
       })
+    );
+  }
+
+  getTaskById(taskId: string): Observable<Task | null> {
+    return this.getFlattenedIndentedTasks().pipe(
+      map((tasks) => tasks.find((t) => t.task.id === taskId)),
+      map((tasks) => (tasks ? tasks.task : null))
     );
   }
 

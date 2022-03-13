@@ -31,12 +31,18 @@ const store = (doneTasks) =>
       handleElasticsearchError(error);
     });
 
-const remove = (doneTasks) =>
+const remove = (doneTaskId) =>
   esClient
-    .index({
+    .deleteByQuery({
       index,
       refresh: "true",
-      body: doneTasks,
+      body: {
+        query: {
+          terms: {
+            _id: [doneTaskId],
+          },
+        },
+      },
     })
     .then((response) => response)
     .catch((error) => {

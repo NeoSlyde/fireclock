@@ -36,8 +36,6 @@ export class HttpActivityService extends ActivityService {
         params: new HttpParams().set("id", taskId),
       })
       .subscribe((u) => {
-        console.log(u);
-
         this._activitiesDb.next(u);
       });
     return this._activitiesDb;

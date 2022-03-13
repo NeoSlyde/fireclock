@@ -1,4 +1,5 @@
 import done_tasksRep from "./done_tasks-repository";
+import { Activity } from "../../../../frontend/src/app/activities/activity.service";
 var bcrypt = require("bcrypt");
 
 async function getDone_tasks(req, res) {
@@ -18,17 +19,14 @@ async function getDone_tasks(req, res) {
 
 async function getDoneTasksOfTask(req, res) {
   try {
-    console.log(
-      "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + req.query.taskId
-    );
-
     const result = await done_tasksRep.getDoneTasksOfTask(req.query.id);
-    const finalArray = [];
+    const finalArray: Activity[] = [];
     for (let obj of result.hits.hits) {
-      finalArray.push(obj._source);
+      finalArray.push({
+        ...obj._source,
+        id: obj._id,
+      });
     }
-    console.log("azeaeazeazaz " + finalArray);
-
     res.send(finalArray);
   } catch (e) {
     res.status(400).end();
@@ -53,21 +51,16 @@ async function create(req, res) {
 
 async function deleteDoneTask(req, res) {
   try {
-    const userBool = await done_taskExist(req.body.taskId);
-    if (!userBool) {
-      res.status(404).end();
-    } else {
-      const result = await done_tasksRep.remove(req.query.id);
-      res.send(result);
-    }
+    const result = await done_tasksRep.remove(req.body.activityId);
+    res.send(result);
   } catch (e) {
     res.status(400).end();
   }
 }
 
-async function done_taskExist(taskId) {
+async function done_taskExist(activityId) {
   try {
-    const result = await done_tasksRep.getDoneTasksOfTask(taskId);
+    const result = await done_tasksRep.getDoneTasksOfTask(activityId);
     return result ? true : false;
   } catch (e) {
     console.log("error getting done_task", e);
@@ -77,11 +70,11 @@ async function done_taskExist(taskId) {
 
 async function updateDuration(req, res) {
   try {
-    const taskBool = await done_taskExist(req.body.taskId);
+    const taskBool = await done_taskExist(req.body.activityId);
     if (taskBool) {
       console.log("attempting to update name");
       const newTask = await done_tasksRep.updateDuration(
-        req.body.taskId,
+        req.body.activityId,
         req.body.duration
       );
       res.json(newTask);
@@ -91,11 +84,11 @@ async function updateDuration(req, res) {
 
 async function updateCreated(req, res) {
   try {
-    const taskBool = await done_taskExist(req.body.taskId);
+    const taskBool = await done_taskExist(req.body.activityId);
     if (taskBool) {
       console.log("attempting to update name");
       const newTask = await done_tasksRep.updateCreated(
-        req.body.taskId,
+        req.body.activityId,
         req.body.created
       );
       res.json(newTask);

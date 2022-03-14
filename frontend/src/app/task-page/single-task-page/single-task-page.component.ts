@@ -1,8 +1,21 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { map, mergeMap, Observable, of } from "rxjs";
+import {
+  combineLatest,
+  firstValueFrom,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  tap,
+} from "rxjs";
 import { Activity, ActivityService } from "src/app/activities/activity.service";
 import { Interval, Task, TasksService } from "src/app/tasks/tasks.service";
+
+type EnhancedTask = Omit<Task, "children"> & {
+  activities: Activity[];
+  children: Task[];
+};
 
 @Component({
   selector: "app-single-task-page",
@@ -16,19 +29,16 @@ export class SingleTaskPageComponent implements OnInit {
     readonly activityService: ActivityService
   ) {}
 
-  task$: Observable<(Task & { activities: Activity[] }) | null> =
-    this.router.params.pipe(
-      mergeMap((params) =>
-        this.tasksService.getTaskById(params["id"] as string)
-      ),
-      mergeMap((task) =>
-        task == null
-          ? of(null)
-          : this.activityService
-              .getActivities(task.id)
-              .pipe(map((activities) => ({ ...task, activities })))
-      )
-    );
+  task$: Observable<EnhancedTask | null> = this.router.params.pipe(
+    mergeMap((params) => this.tasksService.getTaskById(params["id"] as string)),
+    mergeMap((t) =>
+      t === null
+        ? of(null)
+        : this.activityService
+            .getActivities(t.id)
+            .pipe(map((a) => ({ ...t, activities: a })))
+    )
+  );
 
   ngOnInit(): void {
     this.router.params;
@@ -70,12 +80,36 @@ export class SingleTaskPageComponent implements OnInit {
     return newDate;
   }
 
-  test() {
-    return [
-      this.dateRoundedInterval(new Date(), "day"),
-      this.dateRoundedInterval(new Date(), "week"),
-      this.dateRoundedInterval(new Date(), "month"),
-      this.dateRoundedInterval(new Date(), "year"),
-    ];
+  addDateInterval(date: Date, interval: Interval, multiplier: number): Date {
+    let newDate = new Date(date);
+    if (interval === "day") newDate.setDate(date.getDate() + multiplier);
+    if (interval === "week") newDate.setDate(date.getDate() + 7 * multiplier);
+    if (interval === "month") newDate.setMonth(date.getMonth() + multiplier);
+    if (interval === "year")
+      newDate.setFullYear(date.getFullYear() + multiplier);
+    return newDate;
+  }
+
+  getNDates(interval: Interval, n: number): [Date, Date][] {
+    const date = this.dateRoundedInterval(new Date(), interval);
+    const dates: [Date, Date][] = [];
+    for (let i = 0; i < n; ++i) {
+      const j = -n + i + 1;
+      dates.push([
+        this.addDateInterval(date, interval, j),
+        this.addDateInterval(date, interval, j + 1),
+      ]);
+    }
+    return dates;
+  }
+
+  doneMinutes(dateBegin: Date, dateEnd: Date, task: EnhancedTask): number {
+    return task.activities
+      .filter(
+        (a) =>
+          new Date(a.created).getTime() >= dateBegin.getTime() &&
+          new Date(a.created).getTime() < dateEnd.getTime()
+      )
+      .reduce((acc, activity) => acc + activity.duration, 0);
   }
 }

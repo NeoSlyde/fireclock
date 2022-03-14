@@ -18,12 +18,33 @@
     </li>
   </ul>
   <h2 style="margin: 2rem 0">Quotas</h2>
-  <div style="display: flex; flex-direction: column; gap: 0.6rem">
+  <div style="display: flex; flex-direction: column; gap: 0.2rem">
     <div
-      style="display: flex"
-      *ngFor="let x of getNDates(task.quotaInterval, 10)"
+      style="
+        position: relative;
+        display: flex;
+        border: 2px solid rgba(0, 0, 0, 0.295);
+        padding: 1.2rem 1.6rem;
+        border-radius: 0.4rem;
+        overflow: hidden;
+        max-width: 36rem;
+      "
+      *ngFor="let x of getNDates(task.quotaInterval, 10).reverse()"
     >
-      <p style="width: 10rem">{{ x[0] | date: "yyyy-MM-dd HH:mm" }}</p>
+      <div
+        style="
+          position: absolute;
+          inset: 0;
+          background-color: rgba(37, 195, 243, 0.568);
+          z-index: -1;
+        "
+        [ngStyle]="{
+          width: (100 * this.doneMinutes(x[0], x[1], task)) / task.quota + '%'
+        }"
+      ></div>
+      <p style="width: 10rem; margin-right: auto">
+        {{ x[0] | date: "yyyy-MM-dd HH:mm" }}
+      </p>
       <p>{{ this.doneMinutes(x[0], x[1], task) }} / {{ task.quota }} minutes</p>
     </div>
   </div>

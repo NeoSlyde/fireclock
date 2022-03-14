@@ -44,9 +44,9 @@ import { HttpActivityService } from "./activities/http-activity.service";
   ],
   providers: [
     { provide: LangService, useClass: LangFrService },
-    { provide: AuthService, useClass: HttpAuthService },
-    { provide: TasksService, useClass: HttpTaskService },
-    { provide: ActivityService, useClass: HttpActivityService },
+    { provide: AuthService, useClass: DummyAuthService },
+    { provide: TasksService, useClass: DummyTasksService },
+    { provide: ActivityService, useClass: DummyActivityService },
   ],
   bootstrap: [AppComponent],
 })

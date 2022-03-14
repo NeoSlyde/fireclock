@@ -1,51 +1,71 @@
 <div style="margin-left: 1.6rem" *ngIf="task$ | async as task">
-  <h1 style="margin: 2rem 0">{{ task.name }}</h1>
-  <h2>Activity</h2>
-  <ul class="activities">
-    <li class="add-activity" (click)="addActivity(task.id)">Add Activity</li>
-    <li class="activity" *ngFor="let activity of task.activities">
-      <input
-        type="datetime-local"
-        [value]="activity.created | date: 'yyyy-MM-ddTHH:mm'"
-        (change)="onUpdateCreated(activity.id, $event.target)"
-      />
-      <input
-        type="time"
-        [value]="activity.duration | minutesToTime"
-        (change)="onUpdateDuration(activity.id, $event.target)"
-      />
-      <button (click)="onDelete(activity.id)">❌</button>
-    </li>
-  </ul>
-  <h2 style="margin: 2rem 0">Quotas</h2>
-  <div style="display: flex; flex-direction: column; gap: 0.2rem">
-    <div
-      style="
-        position: relative;
-        display: flex;
-        border: 2px solid rgba(0, 0, 0, 0.295);
-        padding: 1.2rem 1.6rem;
-        border-radius: 0.4rem;
-        overflow: hidden;
-        max-width: 36rem;
-      "
-      *ngFor="let x of getNDates(task.quotaInterval, 10).reverse()"
-    >
-      <div
-        style="
-          position: absolute;
-          inset: 0;
-          background-color: rgba(37, 195, 243, 0.568);
-          z-index: -1;
-        "
-        [ngStyle]="{
-          width: (100 * this.doneMinutes(x[0], x[1], task)) / task.quota + '%'
-        }"
-      ></div>
-      <p style="width: 10rem; margin-right: auto">
-        {{ x[0] | date: "yyyy-MM-dd HH:mm" }}
-      </p>
-      <p>{{ this.doneMinutes(x[0], x[1], task) }} / {{ task.quota }} minutes</p>
-    </div>
+  <h1 style="margin: 2rem 0; width: 100%; text-align: center">
+    {{ task.name }}
+  </h1>
+  <div
+    style="
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    "
+  >
+    <span>
+      <h2>Activity</h2>
+      <ul class="activities">
+        <li class="add-activity" (click)="addActivity(task.id)">
+          Add Activity
+        </li>
+        <li class="activity" *ngFor="let activity of task.activities">
+          <input
+            type="datetime-local"
+            [value]="activity.created | date: 'yyyy-MM-ddTHH:mm'"
+            (change)="onUpdateCreated(activity.id, $event.target)"
+          />
+          <input
+            type="time"
+            [value]="activity.duration | minutesToTime"
+            (change)="onUpdateDuration(activity.id, $event.target)"
+          />
+          <button (click)="onDelete(activity.id)">❌</button>
+        </li>
+      </ul>
+    </span>
+    <span>
+      <h2 style="margin: 2rem 0">Quotas</h2>
+      <div style="display: flex; flex-direction: column; gap: 0.2rem">
+        <div
+          style="
+            position: relative;
+            display: flex;
+            border: 2px solid rgba(0, 0, 0, 0.295);
+            padding: 1.2rem 1.6rem;
+            border-radius: 0.4rem;
+            overflow: hidden;
+            max-width: 36rem;
+          "
+          *ngFor="let x of getNDates(task.quotaInterval, 10).reverse()"
+        >
+          <div
+            style="
+              position: absolute;
+              inset: 0;
+              background-color: rgba(37, 195, 243, 0.568);
+              z-index: -1;
+            "
+            [ngStyle]="{
+              width:
+                (100 * this.doneMinutes(x[0], x[1], task)) / task.quota + '%'
+            }"
+          ></div>
+          <p style="width: 10rem; margin-right: auto">
+            {{ x[0] | date: "yyyy-MM-dd HH:mm" }}
+          </p>
+          <p>
+            {{ this.doneMinutes(x[0], x[1], task) }} / {{ task.quota }} minutes
+          </p>
+        </div>
+      </div>
+    </span>
   </div>
 </div>
